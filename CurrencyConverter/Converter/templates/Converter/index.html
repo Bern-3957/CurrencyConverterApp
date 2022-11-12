@@ -1,0 +1,68 @@
+{% load static %}
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'Converter/css/style.css' %}">
+</head>
+<body>
+
+<div class="converter">
+    <div class="converter_title">Конвертер валют</div>
+    <div class="converter_inner">
+
+        <form action="" class="converter_form" method="POST">
+            {% csrf_token %}
+            <div class="main_part">
+
+                <div class="main_part_item">
+                    <label for="main_input">Сумма</label>
+                    <input type="text" class="converter_input" id="main_input" name="input_value" type="number" placeholder="Введите число" {% if input_value %} value="{{ input_value }} {% endif %}">
+                </div>
+
+                <div class="main_part_item">
+                    <label for="give_away">Отдаем</label>
+                    <select name="give_away" id="give_away" class="select give_away">
+                        {% for i, z in fin_list.items %}
+                            <option value="{{ i }}" {% if give_away_valute == i %}selected{% endif %} class="option">{{ i }}: {{ z|floatformat:2 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="main_part_item">
+                    <label for="receive">Получаем</label>
+                    <select name="receive" id="receive" class="select receive">
+                        {% for i, z in fin_list.items %}
+                            <option value="{{ i }}" {% if receive == i %}selected{% endif %} class="option">{{ i }}: {{ z|floatformat:2 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+            </div>
+            <hr>
+
+            <div class="coverter_result"></div>
+            <input type="submit" class="converter_btn">
+
+            {% if res %}
+                <div class="result">
+                    Отдаем {{ input_value }} {{ give_away_valute }} получаем {{ res|floatformat:2 }} {{ receive }}
+                </div>
+            {% endif %}
+
+
+        </form>
+
+
+    </div>
+</div>
+</body>
+</html>
+
+
+
